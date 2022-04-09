@@ -1,0 +1,53 @@
+package TestNG;
+
+import static org.testng.Assert.assertEquals;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Lab5 {
+	@Test
+	public void kiemTraTieuDe() {
+		WebDriverManager.chromedriver().setup();
+		WebDriver cal = new ChromeDriver();
+		String tieuDeKyVong = "Cao đẳng FPT Polytechnic";
+		String tieuDeThucTe = "";
+		cal.manage().window().maximize(); // mở to trang
+		cal.get("https://ap.poly.edu.vn/"); // vào trang
+		tieuDeThucTe = cal.getTitle(); // lấy tiêu đề của trang
+		assertEquals(tieuDeKyVong, tieuDeThucTe); // so sánh
+		cal.close();
+	}
+
+	@Test
+	public void kiemTraTieuDeLMS() {
+		WebDriverManager.chromedriver().setup();
+		WebDriver cal = new ChromeDriver();
+		String tieuDeKyVong = "Learning Management System | Hệ thống quản trị học tập | FPT Polytechnic Việt Nam";
+		String tieuDeThucTe = "";
+		cal.manage().window().maximize(); // mở to trang
+		cal.get("https://lms.poly.edu.vn/"); // vào trang
+		tieuDeThucTe = cal.getTitle(); // lấy tiêu đề của trang
+		assertEquals(tieuDeKyVong, tieuDeThucTe); // so sánh
+		cal.close();
+	}
+
+	@Test
+	public void timKiem() {
+		WebDriverManager.chromedriver().setup();
+		WebDriver cal = new ChromeDriver();
+		cal.manage().window().maximize();
+		cal.get("https://www.google.com");
+		cal.findElement(By.name("q")).sendKeys("Nguyễn Viết Hiên");
+		WebElement webElement = cal.findElements(By.name("btnK")).get(1);
+		Actions run = new Actions(cal).click(webElement);
+		run.build().perform();
+		cal.close();
+	}
+}

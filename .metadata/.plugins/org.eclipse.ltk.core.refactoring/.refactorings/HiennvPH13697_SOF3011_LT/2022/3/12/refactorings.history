@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;BaiTap/src/main/webapp/views/formData.jsp&apos; to &apos;tableData.jsp&apos;" description="Rename resource &apos;formData.jsp&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/main/webapp/views/formData.jsp" name="tableData.jsp" stamp="1647652420967" updateReferences="true"/>
+</session>

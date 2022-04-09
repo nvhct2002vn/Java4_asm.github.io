@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="NewWizardAction">
+		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.wst.web.ui"/>
+		</list>
+	</section>
+	<section name="SmartImportWizard">
+		<item key="SmartImportRootWizardPage.STORE_HIDE_ALREADY_OPEN" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_CLOSE_IMPORTED" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
+		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
+		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\HiennvPH13697_SOF3011_Assignment-Test"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\HiennvPH13697_SOF304_Lab6"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\HiennvPH13697_SOF304_Lab4-5"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\DuAnKiemThu\DuAnKiemThu"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\SOF304\DAM_SOF304"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\DuAnKiemThu\EduSys"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\DAM_SOF304"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\DuAnMau"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\EduSys_BaiLam"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\Lab3"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\HiennvPH13697_SOF304_Lab3"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\HiennvPH13697_SOF304_Lab3"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\hoadtph13703_SOF304_Lab3"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\hoadtph13703_SOF304_Lab2_Bai123"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\SP22B2_SOF3011_IT16302"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\HiennvPH13697_SOF304_Lab2"/>
+			<item value="C:\Users\nguyen viet hien\OneDrive\Máy tính\KiemThuNangCao-SOF304\HiennvPH13697_SOF304_Lab1"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.internal.ide.dialogs.ProjectContentsLocationArea">
+		<item key="OUTSIDE_LOCATION" value="C:\Users\nguyen viet hien\OneDrive\Máy tính"/>
+	</section>
+</section>

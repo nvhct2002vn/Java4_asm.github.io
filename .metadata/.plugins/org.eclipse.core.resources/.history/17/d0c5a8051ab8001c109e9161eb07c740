@@ -1,0 +1,94 @@
+package entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the sizes database table.
+ * 
+ */
+@Entity
+@Table(name="sizes")
+@NamedQuery(name="Size.findAll", query="SELECT s FROM Size s")
+public class Size implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	private int id;
+
+	private String ten;
+
+	//bi-directional many-to-one association to Product
+	@OneToMany(mappedBy="size1")
+	private List<Product> products1;
+
+	//bi-directional many-to-one association to Product
+	@OneToMany(mappedBy="size2")
+	private List<Product> products2;
+
+	public Size() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTen() {
+		return this.ten;
+	}
+
+	public void setTen(String ten) {
+		this.ten = ten;
+	}
+
+	public List<Product> getProducts1() {
+		return this.products1;
+	}
+
+	public void setProducts1(List<Product> products1) {
+		this.products1 = products1;
+	}
+
+	public Product addProducts1(Product products1) {
+		getProducts1().add(products1);
+		products1.setSize1(this);
+
+		return products1;
+	}
+
+	public Product removeProducts1(Product products1) {
+		getProducts1().remove(products1);
+		products1.setSize1(null);
+
+		return products1;
+	}
+
+	public List<Product> getProducts2() {
+		return this.products2;
+	}
+
+	public void setProducts2(List<Product> products2) {
+		this.products2 = products2;
+	}
+
+	public Product addProducts2(Product products2) {
+		getProducts2().add(products2);
+		products2.setSize2(this);
+
+		return products2;
+	}
+
+	public Product removeProducts2(Product products2) {
+		getProducts2().remove(products2);
+		products2.setSize2(null);
+
+		return products2;
+	}
+
+}

@@ -1,0 +1,53 @@
+package entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the categories database table.
+ * 
+ */
+@Entity
+@Table(name="categories")
+@NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
+public class Category implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	private int id;
+
+	private String ten;
+
+	//bi-directional many-to-one association to User
+	@ManyToOne
+	private User user;
+
+	public Category() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getTen() {
+		return this.ten;
+	}
+
+	public void setTen(String ten) {
+		this.ten = ten;
+	}
+
+	public User getUser() {
+		return this.user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+}

@@ -1,0 +1,3 @@
+MOCK_FRAMEWORK=powermock
+TEST_PROJECT_POSTFIX=
+eclipse.preferences.version=1

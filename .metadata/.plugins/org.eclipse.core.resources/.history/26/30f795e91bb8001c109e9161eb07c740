@@ -1,0 +1,149 @@
+package entities;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.List;
+
+
+/**
+ * The persistent class for the products database table.
+ * 
+ */
+@Entity
+@Table(name="products")
+@NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
+public class Product implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	private int id;
+
+	@Column(name="category_id")
+	private int categoryId;
+
+	@Column(name="don_gia")
+	private float donGia;
+
+	private String img;
+
+	@Column(name="so_luong")
+	private int soLuong;
+
+	private String ten;
+
+	//bi-directional many-to-one association to Cartdetail
+	@OneToMany(mappedBy="product")
+	private List<Cartdetail> cartdetails;
+
+	//bi-directional many-to-one association to Size
+	@ManyToOne
+	@JoinColumn(name="size_id")
+	private Size size1;
+
+	//bi-directional many-to-one association to Color
+	@ManyToOne
+	private Color color;
+
+	//bi-directional many-to-one association to Size
+	@ManyToOne
+	@JoinColumn(name="size_id")
+	private Size size2;
+
+	public Product() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getCategoryId() {
+		return this.categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public float getDonGia() {
+		return this.donGia;
+	}
+
+	public void setDonGia(float donGia) {
+		this.donGia = donGia;
+	}
+
+	public String getImg() {
+		return this.img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public int getSoLuong() {
+		return this.soLuong;
+	}
+
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
+	}
+
+	public String getTen() {
+		return this.ten;
+	}
+
+	public void setTen(String ten) {
+		this.ten = ten;
+	}
+
+	public List<Cartdetail> getCartdetails() {
+		return this.cartdetails;
+	}
+
+	public void setCartdetails(List<Cartdetail> cartdetails) {
+		this.cartdetails = cartdetails;
+	}
+
+	public Cartdetail addCartdetail(Cartdetail cartdetail) {
+		getCartdetails().add(cartdetail);
+		cartdetail.setProduct(this);
+
+		return cartdetail;
+	}
+
+	public Cartdetail removeCartdetail(Cartdetail cartdetail) {
+		getCartdetails().remove(cartdetail);
+		cartdetail.setProduct(null);
+
+		return cartdetail;
+	}
+
+	public Size getSize1() {
+		return this.size1;
+	}
+
+	public void setSize1(Size size1) {
+		this.size1 = size1;
+	}
+
+	public Color getColor() {
+		return this.color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public Size getSize2() {
+		return this.size2;
+	}
+
+	public void setSize2(Size size2) {
+		this.size2 = size2;
+	}
+
+}
