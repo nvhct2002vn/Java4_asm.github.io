@@ -1,21 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%-- <c:if test="${ empty userLogin}"> --%>
-<!-- 	<div class="text-center"> -->
-<!-- 		<h4>Vui lòng đăng nhập!</h4> -->
-<!-- 	</div> -->
-<%-- </c:if> --%>
-<%-- <c:if test="${ !empty userLogin}"> --%>
-<%-- 	<c:if test="${ user.phanQuyen != 1 }"> --%>
-<!-- 		<div class="text-center"> -->
-<!-- 			<h4>Bạn không có quyền truy cập!</h4> -->
-<!-- 		</div> -->
-<%-- 	</c:if> --%>
-<%-- </c:if> --%>
-<%-- <c:if test="${userLogin.phanQuyen == 1}"> --%>
-
-<%-- </c:if> --%>
 <c:if test="${ !empty  sessionScope.message }">
 	<div class="alert alert-success">${ sessionScope.message }</div>
 	<c:remove var="message" scope="session" />
@@ -43,33 +28,23 @@
 
 	<table class="table">
 		<tr>
-			<th>Hình ảnh</th>
-			<th>Tên sản phẩm</th>
+			<th>Id đơn hàng</th>
 			<th>Số lượng</th>
-			<th>Màu sắc</th>
-			<th>Đơn giá</th>
-			<th>Kích thước</th>
 			<th>Tổng tiền</th>
 			<th>Ngày mua</th>
 			<th>Trạng thái</th>
 			<!-- 			<th>Người thêm</th> -->
 			<th colspan="2">Thao tác</th>
 		</tr>
-		<c:forEach var="lstCartdt" items="${ lstCartdt }">
+		<c:forEach var="lstCart" items="${ lstCart }">
 			<tr>
-				<td><img alt="Product" style="max-height: 100px"
-					src="/HiennvPH13697_SOF3011_Assignment/images/${ lstCartdt.product.img }"></td>
-				<td>${ lstCartdt.product.category.ten}${ khoangTrang }${ lstCartdt.product.ten }</td>
-				<td>${ lstCartdt.soLuong }</td>
-				<td>${ lstCartdt.product.mauSac }</td>
-				<td>${ lstCartdt.product.donGia }</td>
-				<td>${ lstCartdt.product.kichThuoc }</td>
-				<td>${ lstCartdt.cart.tongTien }</td>
-				<td>${ lstCartdt.cart.ngayMua }</td>
-				<td>${ lstCartdt.trangThai == 0?"Chưa thanh toán":"Đã thanh toán" }</td>
+				<td>${ lstCart.id }</td>
+				<td>${ lstCart.cartdetail.soLuong }</td>
+				<td>${ lstCart.tongTien }</td>
+				<td>${ lstCart.ngayMua }</td>
+				<td>${ lstCart.cartdetail.trangThai == 0?"Chưa thanh toán":"Đã thanh toán" }</td>
 				<td><a class="btn btn-info"
-					href="/HiennvPH13697_SOF3011_Assignment/products/edit?id=${ lstCartdt.id }">Sửa</a>
-				</td>
+					href="/HiennvPH13697_SOF3011_Assignment/carts/edit?id=${ lstCartdt.id }">Xem</a></td>
 				<td>
 					<!-- Button trigger modal -->
 					<button type="button" class="btn btn-danger" data-bs-toggle="modal"
@@ -91,7 +66,7 @@
 									<button type="button" class="btn btn-secondary"
 										data-bs-dismiss="modal">Close</button>
 									<a class="btn btn-danger"
-										href="/HiennvPH13697_SOF3011_Assignment/products/delete?id=${ lstCartdt.id }">Xóa</a>
+										href="/HiennvPH13697_SOF3011_Assignment/carts/delete?id=${ lstCartdt.id }">Xóa</a>
 								</div>
 							</div>
 						</div>

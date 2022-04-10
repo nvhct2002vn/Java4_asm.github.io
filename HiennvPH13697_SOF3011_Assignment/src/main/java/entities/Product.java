@@ -14,12 +14,12 @@ import java.util.List;
 @NamedQuery(name="Product.findAll", query="SELECT p FROM Product p")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private int id;
 
 	@Column(name="don_gia")
-	private float donGia;
+	private int donGia;
 
 	private String img;
 
@@ -53,11 +53,11 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public float getDonGia() {
+	public int getDonGia() {
 		return this.donGia;
 	}
 
-	public void setDonGia(float donGia) {
+	public void setDonGia(int donGia) {
 		this.donGia = donGia;
 	}
 

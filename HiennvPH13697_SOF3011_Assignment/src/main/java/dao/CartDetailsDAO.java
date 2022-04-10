@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import entities.Cartdetail;
+import entities.User;
 import utils.JpaUtil;
 
 public class CartDetailsDAO {
@@ -18,6 +19,15 @@ public class CartDetailsDAO {
 	public List<Cartdetail> getAll() {
 		String jqpl = "SELECT c FROM Cartdetail c";
 		TypedQuery<Cartdetail> query = this.em.createQuery(jqpl, Cartdetail.class);
+		List<Cartdetail> resault = query.getResultList();
+		return resault;
+	}
+
+	public List<Cartdetail> getAllByIDCart(int cart) {
+		String jpql = "SELECT c FROM Cartdetail c Where cart_id= :cart";
+
+		TypedQuery<Cartdetail> query = this.em.createQuery(jpql, Cartdetail.class);
+		query.setParameter("cart", cart);
 		List<Cartdetail> resault = query.getResultList();
 		return resault;
 	}

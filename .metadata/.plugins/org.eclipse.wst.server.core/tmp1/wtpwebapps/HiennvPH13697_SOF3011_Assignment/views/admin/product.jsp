@@ -15,10 +15,13 @@
 		<label class="form-lable">Số lượng:</label>
 		<div class="row">
 			<div class="col-3">
-				<input class="form-control" type="number" min="1" max="${ prd.soLuong }">
+				<input class="form-control" type="number" min="1"
+					max="${ prd.soLuong }" name="soLuongMua">
 			</div>
 			<div class="col-9">
-				<button class="btn btn-outline-secondary">Thêm vào rỏ hàng</button>
+				<a
+					href="/HiennvPH13697_SOF3011_Assignment/addprdtocard?id=${ prd.id }"
+					class="btn btn-outline-secondary">Thêm vào rỏ hàng</a>
 			</div>
 		</div>
 	</div>

@@ -44,12 +44,11 @@ public class CartServlet extends HttpServlet {
 			throws ServletException, IOException {
 	}
 
+	// hiểm thị danh sách hoá đơn
 	public void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		List<Cart> lstCart = this.crDAO.getAll();
-		List<Cartdetail> lstCartdt = this.crdtDAO.getAll();
 
 		request.setAttribute("lstCart", lstCart);
-		request.setAttribute("lstCartdt", lstCartdt);
 		request.setAttribute("view", "/views/admin/carts/index.jsp");
 		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
 	}

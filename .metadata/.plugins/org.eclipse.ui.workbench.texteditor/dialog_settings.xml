@@ -6,15 +6,15 @@
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="Cart"/>
+		<item key="selection" value=""/>
 		<list key="findhistory">
+			<item value="userLogin"/>
 			<item value="Category"/>
 			<item value="products"/>
 			<item value="back-home"/>
 			<item value="products_list"/>
 			<item value="user"/>
 			<item value="session"/>
-			<item value="userLogin"/>
 			<item value="&lt;c:if test=&quot;${ !empty  sessionScope.message }&quot;&gt;"/>
 			<item value="void"/>
 			<item value="Entity"/>
