@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy package &apos;controllers.admin&apos; to &apos;Java4_Sof3011/src/main/java&apos;&#x0D;&#x0A;- Original project: &apos;SP22B2_SOF3011_IT16302&apos;&#x0D;&#x0A;- Destination element: &apos;Java4_Sof3011/src/main/java&apos;&#x0D;&#x0A;- Original element: &apos;SP22B2_SOF3011_IT16302/src/main/java/controllers.admin&apos;" description="Copy package" destination="=Java4_Sof3011/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;controllers.admin" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1647477051359" version="1.0"/>
-</session>
