@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy element &apos;HocVienTest.java&apos; to &apos;DAM_SOF304/src/TEST&apos;&#x0D;&#x0A;- Original project: &apos;EduSys&apos;&#x0D;&#x0A;- Destination element: &apos;DAM_SOF304/src/TEST&apos;&#x0D;&#x0A;- Original element: &apos;Entity.HocVienTest.java&apos;" description="Copy compilation unit" destination="=DAM_SOF304/src=/optional=/true=/=/maven.pomderived=/true=/&lt;TEST" element1="/src=/optional=/true=/=/maven.pomderived=/true=/&lt;Entity{HocVienTest.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1647785822657" units="1" version="1.0"/>
-</session>
