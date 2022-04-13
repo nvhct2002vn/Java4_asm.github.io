@@ -37,7 +37,7 @@
 
 	<p>Địa chỉ:</p>
 	<p>Số điện thoại:</p>
-	<p>Tổng tiền:</p>
+	<p>Tổng tiền: ${ Cart.tongTien }</p>
 
 	<div class="text-center">
 		<c:if test="${ Cart.trangThai == 1 }">

@@ -12,6 +12,7 @@
 		<p>Giá: ${ prd.donGia }</p>
 		<p>Màu: ${ prd.mauSac }</p>
 		<p>Kích thước: ${ prd.kichThuoc }</p>
+		<p>Hiện có: ${ prd.soLuong }</p>
 		<label class="form-lable">Số lượng:</label>
 		<div class="row">
 			<div class="col-3">

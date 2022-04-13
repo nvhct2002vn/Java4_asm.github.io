@@ -21,7 +21,8 @@ import entities.Product;
 /**
  * Servlet implementation class CartServlet -- "/create", "/carts/store",
  */
-@WebServlet({ "/carts/index", "/carts/delete", "/carts/edit", "/carts/status", "/carts/update", "/dathang" })
+@WebServlet({ "/carts/index", "/carts/delete", "/carts/edit", "/carts/status", "/carts/update", "/dathang",
+		"/huydonhang" })
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -51,6 +52,8 @@ public class CartServlet extends HttpServlet {
 			this.status(request, response);
 		} else if (uri.contains("dathang")) {
 			this.dathang(request, response);
+		} else if (uri.contains("huydonhang")) {
+			this.huydonhang(request, response);
 		}
 
 	}
@@ -137,10 +140,33 @@ public class CartServlet extends HttpServlet {
 
 			this.crDAO.update(entity);
 			session.setAttribute("message", "Đặt hàng thành công");
-			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/history");
+			session.setAttribute("trangThaiButton", 1);
+			request.setAttribute("Cart", entity);
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
 		} catch (Exception e) {
 			e.printStackTrace();
 			session.setAttribute("erro", "Đặt hàng thất bại");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
+		}
+	}
+
+	public void huydonhang(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Cart entity = this.crDAO.findByID(id);
+		HttpSession session = request.getSession();
+		try {
+
+			entity.setTrangThai(0);
+
+			this.crDAO.update(entity);
+			session.setAttribute("message", "Huỷ đặt hàng thành công");
+			session.setAttribute("trangThaiButton", 0);
+
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("erro", "Huỷ đặt hàng thất bại");
 			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
 		}
 	}

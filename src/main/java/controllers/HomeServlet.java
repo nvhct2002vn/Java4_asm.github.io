@@ -28,6 +28,9 @@ public class HomeServlet extends HttpServlet {
 	private CartDAO cartDAO;
 	private CartDetailsDAO cartDTDAO;
 	private CategoryDAO cateDAO;
+	int tongTien = 0;
+	int tongTienCu = 0;
+	int tongTienMoi = 0;
 
 	public HomeServlet() {
 		super();
@@ -155,11 +158,16 @@ public class HomeServlet extends HttpServlet {
 			this.cartDTDAO.create(cartdetail);
 			System.out.println("Tạo thành công hoá đơn chi tiết!");
 
+			tongTien += (1 * product.getDonGia());
+			cartEntity.setTongTien(tongTien);
+			this.cartDAO.update(cartEntity);
+
+			session.setAttribute("tongTien", tongTien);
+			session.setAttribute("trangThaiButton", 0);
 			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// không lấy được id của khi tạo session
 	}
 
 	// xem rỏ hàng
@@ -173,9 +181,9 @@ public class HomeServlet extends HttpServlet {
 			request.setAttribute("khoangTrang", " ");
 			request.setAttribute("idCart", cart.getId()); // lấy id để gán vào nút button
 		}
-
 		request.setAttribute("view", "/views/admin/cart.jsp");
 		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
+
 	}
 
 	// xem lịch sử
@@ -196,11 +204,22 @@ public class HomeServlet extends HttpServlet {
 	// xoá sản phẩm trong đơn hàng
 	public void removePrdOnCart(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		System.out.println("xoá sản phẩm trong đơn hàng");
+		tongTienCu = (int) session.getAttribute("tongTien");
+
 		int id = Integer.parseInt(request.getParameter("id"));
 		Cartdetail entity = this.cartDTDAO.findByID(id);
-		HttpSession session = request.getSession();
 		try {
+			//sửa lại giá
+			Cart cartEntity = (Cart) session.getAttribute("hoaDonMoi");
+			tongTienMoi = tongTienCu - entity.getDonGia();
+			cartEntity.setTongTien(tongTienMoi);
+			System.out.println("Tiền mới: " + tongTienMoi);
+			this.cartDAO.update(cartEntity);
+			session.setAttribute("tongTien", tongTienMoi);
+			
+			//xoá sản phẩm
 			this.cartDTDAO.delete(entity);
 			session.setAttribute("message", "Xoá thành công");
 			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");

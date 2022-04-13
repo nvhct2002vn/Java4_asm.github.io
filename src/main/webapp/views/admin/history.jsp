@@ -43,6 +43,10 @@
 		</table>
 		<p>Địa chỉ:</p>
 		<p>Số điện thoại:</p>
+		<div class="text-center">
+			<a href="/HiennvPH13697_SOF3011_Assignment/dathang?id=${ idCart }"
+				class="btn btn-outline-secondary">Huỷ đơn hàng</a>
+		</div>
 	</div>
 </c:if>
 

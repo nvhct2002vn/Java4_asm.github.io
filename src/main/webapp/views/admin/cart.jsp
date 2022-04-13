@@ -27,7 +27,9 @@
 				<th>Đơn giá</th>
 				<th>Kích thước</th>
 				<!-- 			<th>Tổng tiền</th> -->
-				<th colspan="1">Thao tác</th>
+				<c:if test="${ trangThaiButton == 0 }">
+					<th colspan="1">Thao tác</th>
+				</c:if>
 			</tr>
 			<c:forEach var="lstCartdt" items="${ lstCartdt }">
 				<tr>
@@ -39,42 +41,52 @@
 					<td>${ lstCartdt.product.donGia }</td>
 					<td>${ lstCartdt.product.kichThuoc }</td>
 					<%-- 				<td>${ lstCartdt.cart.tongTien }</td> --%>
-					<td>
-						<!-- Button trigger modal -->
-						<button type="button" class="btn btn-danger"
-							data-bs-toggle="modal"
-							data-bs-target="#exampleModal${ lstCartdt.id }">Xóa</button> <!-- Modal -->
-						<div class="modal fade" id="exampleModal${ lstCartdt.id }"
-							tabindex="-1" aria-labelledby="exampleModalLabel"
-							aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">Xóa sản
-											phẩm</h5>
-										<button type="button" class="btn-close"
-											data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">Bạn chắc chắn muốn xóa sản phẩm
-										này hay không ?</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"
-											data-bs-dismiss="modal">Close</button>
-										<a class="btn btn-danger"
-											href="/HiennvPH13697_SOF3011_Assignment/removePrdOnCart?id=${ lstCartdt.id }">Xóa</a>
+					<c:if test="${ trangThaiButton == 0 }">
+						<td>
+							<!-- Button trigger modal -->
+							<button type="button" class="btn btn-danger"
+								data-bs-toggle="modal"
+								data-bs-target="#exampleModal${ lstCartdt.id }">Xóa</button> <!-- Modal -->
+							<div class="modal fade" id="exampleModal${ lstCartdt.id }"
+								tabindex="-1" aria-labelledby="exampleModalLabel"
+								aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="exampleModalLabel">Xóa sản
+												phẩm</h5>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">Bạn chắc chắn muốn xóa sản phẩm
+											này hay không ?</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">Close</button>
+											<a class="btn btn-danger"
+												href="/HiennvPH13697_SOF3011_Assignment/removePrdOnCart?id=${ lstCartdt.id }">Xóa</a>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</td>
+						</td>
+					</c:if>
 				</tr>
 			</c:forEach>
 		</table>
 		<p>Địa chỉ:</p>
 		<p>Số điện thoại:</p>
+		<p>Tổng tiền: ${ tongTien }</p>
 		<div class="text-center">
-			<a href="/HiennvPH13697_SOF3011_Assignment/dathang?id=${ idCart }"
-				class="btn btn-outline-secondary">Đặt hàng</a>
+			<c:if test="${ trangThaiButton == 0 }">
+				<a href="/HiennvPH13697_SOF3011_Assignment/dathang?id=${ idCart }"
+					class="btn btn-outline-success">Đặt hàng</a>
+			</c:if>
+			<c:if test="${ trangThaiButton == 1 }">
+				<a
+					href="/HiennvPH13697_SOF3011_Assignment/huydonhang?id=${ idCart }"
+					class="btn btn-outline-danger">Huỷ đơn hàng</a>
+			</c:if>
 		</div>
 	</div>
 </c:if>
