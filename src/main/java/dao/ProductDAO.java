@@ -27,6 +27,15 @@ public class ProductDAO {
 		return this.em.find(Product.class, id);
 	}
 
+	public List<Product> getAllByIDCart(int category) {
+		String jpql = "SELECT c FROM Product c Where category_id= :category";
+
+		TypedQuery<Product> query = this.em.createQuery(jpql, Product.class);
+		query.setParameter("category", category);
+		List<Product> resault = query.getResultList();
+		return resault;
+	}
+
 	public Product create(Product entity) throws Exception {
 		try {
 			this.em.getTransaction().begin();

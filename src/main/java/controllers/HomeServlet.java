@@ -1,7 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,36 +10,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
-import org.apache.commons.beanutils.BeanUtils;
 
 import dao.CartDAO;
 import dao.CartDetailsDAO;
+import dao.CategoryDAO;
 import dao.ProductDAO;
-import dao.UserDAO;
 import entities.Cart;
 import entities.Cartdetail;
+import entities.Category;
 import entities.Product;
-import entities.User;
-import utils.EncryptUtil;
 
-@WebServlet({ "/home", "/addprdtocard", "/cart", "/list-products", "/product", "/accounts/login", "/accounts/register",
-		"/accounts/store", "/accounts/checklogin", "/accounts/logout" })
+@WebServlet({ "/home", "/addprdtocard", "/cart", "/list-products", "/product", "/removePrdOnCart", "/locTheoDanhMuc" })
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProductDAO prdDAO;
-	private UserDAO userDAO;
 	private CartDAO cartDAO;
 	private CartDetailsDAO cartDTDAO;
-	boolean check = false;
+	private CategoryDAO cateDAO;
 
 	public HomeServlet() {
 		super();
 		prdDAO = new ProductDAO();
-		userDAO = new UserDAO();
 		cartDAO = new CartDAO();
 		cartDTDAO = new CartDetailsDAO();
+		cateDAO = new CategoryDAO();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -48,12 +42,6 @@ public class HomeServlet extends HttpServlet {
 		String uri = request.getRequestURI();
 		if (uri.contains("home")) {
 			this.home(request, response);
-		} else if (uri.contains("login")) {
-			this.login(request, response);
-		} else if (uri.contains("register")) {
-			this.register(request, response);
-		} else if (uri.contains("logout")) {
-			this.logout(request, response);
 		} else if (uri.contains("list-products")) {
 			this.products(request, response);
 		} else if (uri.contains("product")) {
@@ -63,17 +51,22 @@ public class HomeServlet extends HttpServlet {
 		} else if (uri.contains("addprdtocard")) {
 			System.out.println("123");
 			this.addPrdToCard(request, response);
+		} else if (uri.contains("removePrdOnCart")) {
+			this.removePrdOnCart(request, response);
+			System.out.println("xoá sản phẩm trong đơn hàng");
+		} else if (uri.contains("locTheoDanhMuc")) {
+			this.locTheoDanhMuc(request, response);
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String uri = request.getRequestURI();
-		if (uri.contains("checklogin")) {
-			this.checkLogin(request, response);
-		} else if (uri.contains("store")) {
-			this.store(request, response);
-		}
+//		String uri = request.getRequestURI();
+//		if (uri.contains("checklogin")) {
+//			this.checkLogin(request, response);
+//		} else if (uri.contains("store")) {
+//			this.store(request, response);
+//		}
 	}
 
 	public void home(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -83,83 +76,6 @@ public class HomeServlet extends HttpServlet {
 		request.setAttribute("dsPrd", dsPrd);
 		request.setAttribute("view", "/views/admin/home.jsp");
 		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
-	}
-
-	public void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-
-		request.setAttribute("view", "/views/admin/accounts/login.jsp");
-		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
-
-	}
-
-	public void register(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-
-		request.setAttribute("view", "/views/admin/accounts/register.jsp");
-		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
-
-	}
-
-	// đăng ký
-	public void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-
-		HttpSession session = request.getSession();
-		User entity = new User();
-		try {
-			BeanUtils.populate(entity, request.getParameterMap());
-			String encrypted = EncryptUtil.encrypt(request.getParameter("password")); // lấy password và mã hoá
-			entity.setPassword(encrypted);
-
-			this.userDAO.create(entity); // thêm mới
-
-			session.setAttribute("message", "Đăng ký thành công");
-			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/accounts/login");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-
-			session.setAttribute("erro", "Đăng ký thất bại");
-			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/accounts/register");
-		}
-	}
-
-	// kiểm tra trạng thái đăng nhập
-	public void checkLogin(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
-
-		HttpSession session = request.getSession();
-		String email = request.getParameter("email"), pwd = request.getParameter("password");
-
-		User user = this.userDAO.findByEmail(email);
-		boolean check = EncryptUtil.check(pwd, user.getPassword());
-
-		if (check == true) {
-			// Đăng nhập thành công
-			session.setAttribute("userLogin", user); // tạo userLogin để dùng filter
-//			session.setAttribute("message", "Đăng nhập thành công");
-			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/home");
-		} else {
-			// Đăng nhập thất bại
-			session.setAttribute("erro", "Đăng nhập thất bại");
-			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/accounts/login");
-//			request.setAttribute("view", "/views/admin/acccounts/login.jsp");
-//			request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
-		}
-	}
-
-	// đăng xuất
-	public void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		session.removeAttribute("userLogin");
-		response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/home");
 	}
 
 	// hiển thị sản phẩm
@@ -178,11 +94,27 @@ public class HomeServlet extends HttpServlet {
 	// hiển thị danh sách sản phẩm
 	public void products(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		List<Category> dsCate = this.cateDAO.getAll();
 		List<Product> dsPrd = this.prdDAO.getAll();
 
 		request.setAttribute("khoangTrang", " ");
 		request.setAttribute("dsPrd", dsPrd);
+		request.setAttribute("dsCate", dsCate);
 		request.setAttribute("view", "/views/admin/list-products.jsp");
+		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
+	}
+
+	// Lọc sản phẩm theo loại sp
+	public void locTheoDanhMuc(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		List<Product> dsPrd = this.prdDAO.getAllByIDCart(id);
+		List<Category> dsCate = this.cateDAO.getAll();
+
+		request.setAttribute("khoangTrang", " ");
+		request.setAttribute("dsPrd", dsPrd);
+		request.setAttribute("dsCate", dsCate);
+		request.setAttribute("view", "/views/admin/list-products-filter.jsp");
 		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
 	}
 
@@ -241,4 +173,21 @@ public class HomeServlet extends HttpServlet {
 		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
 	}
 
+	// xoá sản phẩm trong đơn hàng
+	public void removePrdOnCart(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("xoá sản phẩm trong đơn hàng");
+		int id = Integer.parseInt(request.getParameter("id"));
+		Cartdetail entity = this.cartDTDAO.findByID(id);
+		HttpSession session = request.getSession();
+		try {
+			this.cartDTDAO.delete(entity);
+			session.setAttribute("message", "Xoá thành công");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("erro", "Xoá thất bại");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
+		}
+	}
 }

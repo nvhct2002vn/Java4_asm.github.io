@@ -63,7 +63,7 @@
 <!-- 					</div> -->
 				</div>
 				<div class="text-center">
-					<a class="product_name" href="#">${ prd.category.ten }${ khoangTrang }${ prd.ten }</a>
+					<a class="product_name" href="/HiennvPH13697_SOF3011_Assignment/product?id=${ prd.id }">${ prd.category.ten }${ khoangTrang }${ prd.ten }</a>
 					<p class="product_price">${ prd.donGia }</p>
 				</div>
 			</div>

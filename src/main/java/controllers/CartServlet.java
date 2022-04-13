@@ -21,8 +21,7 @@ import entities.Product;
 /**
  * Servlet implementation class CartServlet -- "/create", "/carts/store",
  */
-@WebServlet({ "/carts/index", "/carts/delete", "/carts/edit", "/carts/status", "/carts/update",
-		"/carts/removePrdOnCart" })
+@WebServlet({ "/carts/index", "/carts/delete", "/carts/edit", "/carts/status", "/carts/update", })
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -50,9 +49,6 @@ public class CartServlet extends HttpServlet {
 			this.delete(request, response);
 		} else if (uri.contains("status")) {
 			this.status(request, response);
-		} else if (uri.contains("removePrdOnCart")) {
-			this.removePrdOnCart(request, response);
-			System.out.println("xoá sản phẩm trong đơn hàng");
 		}
 
 	}
@@ -88,6 +84,7 @@ public class CartServlet extends HttpServlet {
 
 		request.setAttribute("lstCartdt", lstCartdt);
 		request.setAttribute("Cart", Cart);
+		request.setAttribute("khoangTrang", " ");
 		request.setAttribute("view", "/views/admin/carts/edit.jsp");
 		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
 	}
@@ -105,24 +102,6 @@ public class CartServlet extends HttpServlet {
 			e.printStackTrace();
 			session.setAttribute("erro", "Xoá thất bại");
 			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/carts/index");
-		}
-	}
-
-	// xoá sản phẩm trong đơn hàng
-	public void removePrdOnCart(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		System.out.println("xoá sản phẩm trong đơn hàng");
-		int id = Integer.parseInt(request.getParameter("id"));
-		Cartdetail entity = this.crdtDAO.findByID(id);
-		HttpSession session = request.getSession();
-		try {
-			this.crdtDAO.delete(entity);
-			session.setAttribute("message", "Xoá thành công");
-			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
-		} catch (Exception e) {
-			e.printStackTrace();
-			session.setAttribute("erro", "Xoá thất bại");
-			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
 		}
 	}
 
