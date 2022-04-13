@@ -54,7 +54,7 @@
 									<button type="button" class="btn btn-secondary"
 										data-bs-dismiss="modal">Close</button>
 									<a class="btn btn-danger"
-										href="/HiennvPH13697_SOF3011_Assignment/products/delete?id=${ lstCartdt.id }">Xóa</a>
+										href="/HiennvPH13697_SOF3011_Assignment/carts/removePrdOnCart?id=${ lstCartdt.id }">Xóa</a>
 								</div>
 							</div>
 						</div>
@@ -65,7 +65,8 @@
 	</table>
 
 	<div class="text-center">
-		<a href="/HiennvPH13697_SOF3011_Assignment/products/delete" class="btn btn-outline-secondary">Đặt hàng</a>
+		<a href="/HiennvPH13697_SOF3011_Assignment/products/delete"
+			class="btn btn-outline-secondary">Đặt hàng</a>
 	</div>
 
 </div>

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import entities.User;
 
-@WebFilter(urlPatterns = { "/users/*", "/products/*", "/categories/*", })
+@WebFilter(urlPatterns = { "/users/*", "/products/*", "/categories/*", "/carts/*" })
 public class AuthenticaticationFilter implements Filter {
 
 	public AuthenticaticationFilter() {
@@ -31,9 +31,9 @@ public class AuthenticaticationFilter implements Filter {
 		HttpSession session = httpReq.getSession();
 
 		User user = (User) session.getAttribute("userLogin"); // lấy ra user từ session lúc đăng nhập
-		
+
 		if (user == null) {
-			httpRes.sendRedirect("/HiennvPH13697_SOF3011_Assignment/accounts/login");		
+			httpRes.sendRedirect("/HiennvPH13697_SOF3011_Assignment/accounts/login");
 			return;
 		}
 

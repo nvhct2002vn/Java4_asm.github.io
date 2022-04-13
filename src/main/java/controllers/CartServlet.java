@@ -8,26 +8,33 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.CartDAO;
 import dao.CartDetailsDAO;
+import dao.ProductDAO;
 import entities.Cart;
 import entities.Cartdetail;
+import entities.Category;
+import entities.Product;
 
 /**
  * Servlet implementation class CartServlet -- "/create", "/carts/store",
  */
-@WebServlet({ "/carts/index", "/carts/delete", "/carts/edit", "/carts/update" })
+@WebServlet({ "/carts/index", "/carts/delete", "/carts/edit", "/carts/status", "/carts/update",
+		"/carts/removePrdOnCart" })
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	CartDAO crDAO;
 	CartDetailsDAO crdtDAO;
+	ProductDAO prdDAO;
 
 	public CartServlet() {
 		super();
 		crDAO = new CartDAO();
 		crdtDAO = new CartDetailsDAO();
+		prdDAO = new ProductDAO();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -37,7 +44,17 @@ public class CartServlet extends HttpServlet {
 			this.index(request, response);
 		} else if (uri.contains("create")) {
 			this.create(request, response);
+		} else if (uri.contains("edit")) {
+			this.edit(request, response);
+		} else if (uri.contains("delete")) {
+			this.delete(request, response);
+		} else if (uri.contains("status")) {
+			this.status(request, response);
+		} else if (uri.contains("removePrdOnCart")) {
+			this.removePrdOnCart(request, response);
+			System.out.println("xoá sản phẩm trong đơn hàng");
 		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -62,5 +79,69 @@ public class CartServlet extends HttpServlet {
 		request.setAttribute("view", "/views/admin/carts/index.jsp");
 		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
 	}
-//	tạo hoá đơn trước, rồi thêm sp vào hoá đơn chi tiết, rồi thêm hoá đơn vào hoá đơn chi tiết
+
+	// xem chi tiết hoá đơn
+	public void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		List<Cartdetail> lstCartdt = this.crdtDAO.getAllByIDCart(id);
+		Cart Cart = this.crDAO.findByID(id);
+
+		request.setAttribute("lstCartdt", lstCartdt);
+		request.setAttribute("Cart", Cart);
+		request.setAttribute("view", "/views/admin/carts/edit.jsp");
+		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
+	}
+
+// xoá hoá đơn
+	public void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Cart entity = this.crDAO.findByID(id);
+		HttpSession session = request.getSession();
+		try {
+			this.crDAO.delete(entity);
+			session.setAttribute("message", "Xoá thành công");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/carts/index");
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("erro", "Xoá thất bại");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/carts/index");
+		}
+	}
+
+	// xoá sản phẩm trong đơn hàng
+	public void removePrdOnCart(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("xoá sản phẩm trong đơn hàng");
+		int id = Integer.parseInt(request.getParameter("id"));
+		Cartdetail entity = this.crdtDAO.findByID(id);
+		HttpSession session = request.getSession();
+		try {
+			this.crdtDAO.delete(entity);
+			session.setAttribute("message", "Xoá thành công");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("erro", "Xoá thất bại");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
+		}
+	}
+
+	// Xác nhận đơn hàng
+	public void status(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Cart entity = this.crDAO.findByID(id);
+
+		HttpSession session = request.getSession();
+		try {
+			entity.setTrangThai(2);
+
+			this.crDAO.update(entity);
+			session.setAttribute("message", "Xác nhận hoá đơn thành công");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/carts/index");
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("erro", "Xác nhận hoá đơn thất bại");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/carts/index");
+		}
+	}
 }

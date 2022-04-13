@@ -31,7 +31,6 @@ public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProductDAO prdDAO;
 	private UserDAO userDAO;
-	private CartDetailsDAO crdtDAO;
 	private CartDAO cartDAO;
 	private CartDetailsDAO cartDTDAO;
 	boolean check = false;
@@ -40,7 +39,6 @@ public class HomeServlet extends HttpServlet {
 		super();
 		prdDAO = new ProductDAO();
 		userDAO = new UserDAO();
-		crdtDAO = new CartDetailsDAO();
 		cartDAO = new CartDAO();
 		cartDTDAO = new CartDetailsDAO();
 	}
@@ -63,9 +61,9 @@ public class HomeServlet extends HttpServlet {
 		} else if (uri.contains("cart")) {
 			this.cart(request, response);
 		} else if (uri.contains("addprdtocard")) {
+			System.out.println("123");
 			this.addPrdToCard(request, response);
 		}
-
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -192,56 +190,53 @@ public class HomeServlet extends HttpServlet {
 	public void addPrdToCard(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		System.out.println("hoá đơn cũ: " + session.getAttribute("hoaDon"));
-		Product prd = this.prdDAO.findByID(Integer.parseInt(request.getParameter("id"))); // lấy id về, "truyền id lên
-																							// url lúc ấn submit"
-		System.out.println("Hello prd: " + prd);
-
-//		System.out.println("Số lượng mua: " + Integer.parseInt(request.getParameter("soLuongMua")));
-
 		try {
+			Cart cartEntity = (Cart) session.getAttribute("hoaDonMoi");
 			// tạo hoá đơn
-			if (session.getAttribute("hoaDon") == null) {
-				Cart cart = new Cart();
-				Date ngayMua = new Date();
-				cart.setNgayMua(ngayMua);
-				cart.setTongTien(990000);
-				this.cartDAO.create(cart);
-
-				session.setAttribute("hoaDon", cart);
-				check = true;
-				System.out.println("Tạo hoá đơn thành công");
-				System.out.println("hoá đơn mới: " + session.getAttribute("hoaDon"));
+			if (cartEntity == null) {
+				cartEntity = new Cart();
+				Date now = new Date();
+				cartEntity.setNgayMua(now);
+				cartEntity.setTongTien(8888888);
+				cartEntity.setTrangThai(0);
+				this.cartDAO.create(cartEntity);
+				session.setAttribute("hoaDonMoi", cartEntity);
+				System.out.println("Tạo hoá đơn thành công!");
+			} else {
+				System.out.println("Hoá đơn đã tồn tại: " + session.getAttribute("hoaDonMoi"));
 			}
+			// lấy ra sản phẩm được chọn
+			int idPrd = Integer.parseInt(request.getParameter("id"));
+			Product product = this.prdDAO.findByID(idPrd);
 
-			// tạo hoá đơn chi tiết
-			Cart cartHD = (Cart) session.getAttribute("hoaDon");
-			Cartdetail cartDT = new Cartdetail();
-			cartDT.setCart(cartHD);
-			cartDT.setProduct(prd);
-			cartDT.setSoLuong(1);
-			cartDT.setDonGia(prd.getDonGia());
-			cartDT.setTrangThai(0);
-			this.cartDTDAO.create(cartDT);
-			System.out.println("Tạo hoá đơn chi tiết thành công");
-			System.out.println("hoá đơn mới được sử dụng: " + session.getAttribute("hoaDon"));
+			// lấy ra đối tượng trong session và gán vào đối tượng mới
+			Cart cart = (Cart) session.getAttribute("hoaDonMoi");
 
-//			session.removeAttribute("hoaDon");
-//			System.out.println("hoá đơn sau khi xoá: " + session.getAttribute("hoaDon"));
+			// tạo hoá đơn chi tiết mới
+			Cartdetail cartdetail = new Cartdetail();
+			cartdetail.setCart(cart);
+			cartdetail.setProduct(product);
+			cartdetail.setDonGia(product.getDonGia());
+			cartdetail.setSoLuong(1);
+			this.cartDTDAO.create(cartdetail);
+			System.out.println("Tạo thành công hoá đơn chi tiết!");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
+
+		// không lấy được id của khi tạo session
 	}
 
 	// xem rỏ hàng
 	public void cart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Cart cartEntity = (Cart) session.getAttribute("hoaDon");
+		Cart cart = (Cart) session.getAttribute("hoaDonMoi");
+		if (cart != null) {
+			List<Cartdetail> lstCartdt = this.cartDTDAO.getAllByIDCart(cart.getId());
+			request.setAttribute("lstCartdt", lstCartdt);
+		}
 
-		List<Cartdetail> lstCartdt = this.cartDTDAO.getAllByIDCart(cartEntity.getId());
-
-		request.setAttribute("lstCartdt", lstCartdt);
 		request.setAttribute("view", "/views/admin/cart.jsp");
 		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
 	}

@@ -4,41 +4,43 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+
 /**
  * The persistent class for the users database table.
  * 
  */
 @Entity
-@Table(name = "users")
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+@Table(name="users")
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private int id;
 
 	private String avatar;
 
-	@Column(name = "dia_chi")
+	@Column(name="dia_chi")
 	private String diaChi;
 
 	private String email;
 
-	@Column(name = "gioi_tinh")
+	@Column(name="gioi_tinh")
 	private int gioiTinh;
 
-	@Column(name = "ho_ten")
+	@Column(name="ho_ten")
 	private String hoTen;
 
 	private String password;
 
-	@Column(name = "phan_quyen")
+	@Column(name="phan_quyen")
 	private int phanQuyen;
 
 	private String sdt;
 
-	// bi-directional many-to-one association to Category
-	@OneToMany(mappedBy = "user")
+	//bi-directional many-to-one association to Category
+	@OneToMany(mappedBy="user")
 	private List<Category> categories;
 
 	public User() {

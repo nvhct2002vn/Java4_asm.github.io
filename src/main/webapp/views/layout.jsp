@@ -50,7 +50,8 @@
 					</ul>
 					<ul
 						class="navbar-nav col-12 col-md-12 col-lg-2 justify-content-end p-0">
-						<li class="nav-item"><a class="nav-link" href="/HiennvPH13697_SOF3011_Assignment/cart"> <i
+						<li class="nav-item"><a class="nav-link"
+							href="/HiennvPH13697_SOF3011_Assignment/cart"> <i
 								class="bi bi-bag"></i>
 						</a></li>
 						<li class="nav-item dropdown"><a

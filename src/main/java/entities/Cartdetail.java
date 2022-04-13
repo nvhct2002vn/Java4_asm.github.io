@@ -13,6 +13,7 @@ import javax.persistence.*;
 @NamedQuery(name="Cartdetail.findAll", query="SELECT c FROM Cartdetail c")
 public class Cartdetail implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private int id;
@@ -22,9 +23,6 @@ public class Cartdetail implements Serializable {
 
 	@Column(name="so_luong")
 	private int soLuong;
-
-	@Column(name="trang_thai")
-	private int trangThai;
 
 	//bi-directional many-to-one association to Cart
 	@ManyToOne
@@ -59,14 +57,6 @@ public class Cartdetail implements Serializable {
 
 	public void setSoLuong(int soLuong) {
 		this.soLuong = soLuong;
-	}
-
-	public int getTrangThai() {
-		return this.trangThai;
-	}
-
-	public void setTrangThai(int trangThai) {
-		this.trangThai = trangThai;
 	}
 
 	public Cart getCart() {

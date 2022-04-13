@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import entities.Cartdetail;
-import entities.User;
 import utils.JpaUtil;
 
 public class CartDetailsDAO {

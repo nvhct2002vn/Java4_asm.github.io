@@ -121,32 +121,32 @@ public class ProductServlet extends HttpServlet {
 	public void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
-		int id = Integer.parseInt(request.getParameter("category_id"));
-		Category cate = this.cateDAO.findByID(id);
+		int idCate = Integer.parseInt(request.getParameter("category_id"));
+		Category cate = this.cateDAO.findByID(idCate);
 
 		int idPrd = Integer.parseInt(request.getParameter("id"));
-		Product prd = this.prdDAO.findByID(idPrd);
+//		Product prd = this.prdDAO.findByID(idPrd);
 
-		String checkImg = request.getParameter("img");
-		System.out.println("1 Check img gốc getParameter: " + checkImg);
-		System.out.println("2 Check cũ: prd.getImg() > " + prd.getImg());
+//		String checkImg = request.getParameter("img");
+//		System.out.println("1 Check img gốc getParameter: " + checkImg);
+//		System.out.println("2 Check cũ: prd.getImg() > " + prd.getImg());
 
 		try {
 			Product entity = new Product();
 			BeanUtils.populate(entity, request.getParameterMap());
 
-			System.out.println("3 Check img mới: entity.getImg() >" + entity.getImg());
+//			System.out.println("3 Check img mới: entity.getImg() >" + entity.getImg());
 
 			File file = new File(request.getServletContext().getRealPath("/images"));
 			Part part = request.getPart("img");
 			File fileImg = new File(file, part.getSubmittedFileName());
 			part.write(fileImg.getAbsolutePath());
-			System.out.println("4 Check mới: fileImg.getName() > " + fileImg.getName());
-			System.out.println("5 Check mới: part > " + part.getSubmittedFileName());
+//			System.out.println("4 Check mới: fileImg.getName() > " + fileImg.getName());
+//			System.out.println("5 Check mới: part > " + part.getSubmittedFileName());
 
 			entity.setId(idPrd);
-			entity.setImg(fileImg.getName());
 			entity.setCategory(cate);
+			entity.setImg(fileImg.getName());
 
 			this.prdDAO.update(entity);
 			session.setAttribute("message", "Sửa thành công");

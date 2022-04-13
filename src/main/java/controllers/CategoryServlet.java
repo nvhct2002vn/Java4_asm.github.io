@@ -104,11 +104,13 @@ public class CategoryServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		int id = Integer.parseInt(request.getParameter("id"));
-		Category cate = this.cateDAO.findByID(id);
-		Category entity = new Category();
 		try {
+			Category entity = new Category();
 			BeanUtils.populate(entity, request.getParameterMap());
-			entity.setUser(cate.getUser());
+
+			User user = (User) session.getAttribute("userLogin");
+
+			entity.setUser(user);
 			this.cateDAO.update(entity);
 			session.setAttribute("message", "Sửa thành công");
 			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/categories/index");

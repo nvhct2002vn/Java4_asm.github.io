@@ -15,6 +15,7 @@ import java.util.List;
 @NamedQuery(name="Cart.findAll", query="SELECT c FROM Cart c")
 public class Cart implements Serializable {
 	private static final long serialVersionUID = 1L;
+
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private int id;
@@ -25,6 +26,9 @@ public class Cart implements Serializable {
 
 	@Column(name="tong_tien")
 	private int tongTien;
+
+	@Column(name="trang_thai")
+	private int trangThai;
 
 	//bi-directional many-to-one association to Cartdetail
 	@OneToMany(mappedBy="cart")
@@ -55,6 +59,14 @@ public class Cart implements Serializable {
 
 	public void setTongTien(int tongTien) {
 		this.tongTien = tongTien;
+	}
+
+	public int getTrangThai() {
+		return this.trangThai;
+	}
+
+	public void setTrangThai(int trangThai) {
+		this.trangThai = trangThai;
 	}
 
 	public List<Cartdetail> getCartdetails() {

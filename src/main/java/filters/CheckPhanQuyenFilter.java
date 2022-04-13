@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import entities.User;
 
-@WebFilter(urlPatterns = { "/users/*", "/products/*", "/categories/*", })
+@WebFilter(urlPatterns = { "/users/*", "/products/*", "/categories/*", "/carts/*" })
 public class CheckPhanQuyenFilter implements Filter {
 
 	public CheckPhanQuyenFilter() {
@@ -32,7 +32,7 @@ public class CheckPhanQuyenFilter implements Filter {
 
 		User user = (User) session.getAttribute("userLogin"); // lấy ra user từ session lúc đăng nhập
 
-		//user == null && 
+		// user == null &&
 		if (user.getPhanQuyen() == 0) {
 			httpRes.sendRedirect("/HiennvPH13697_SOF3011_Assignment/home");
 			return;
