@@ -21,7 +21,7 @@ import entities.Product;
 /**
  * Servlet implementation class CartServlet -- "/create", "/carts/store",
  */
-@WebServlet({ "/carts/index", "/carts/delete", "/carts/edit", "/carts/status", "/carts/update", })
+@WebServlet({ "/carts/index", "/carts/delete", "/carts/edit", "/carts/status", "/carts/update", "/dathang" })
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -49,6 +49,8 @@ public class CartServlet extends HttpServlet {
 			this.delete(request, response);
 		} else if (uri.contains("status")) {
 			this.status(request, response);
+		} else if (uri.contains("dathang")) {
+			this.dathang(request, response);
 		}
 
 	}
@@ -121,6 +123,25 @@ public class CartServlet extends HttpServlet {
 			e.printStackTrace();
 			session.setAttribute("erro", "Xác nhận hoá đơn thất bại");
 			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/carts/index");
+		}
+	}
+
+	// Đặt đơn hàng
+	public void dathang(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		Cart entity = this.crDAO.findByID(id);
+		HttpSession session = request.getSession();
+		try {
+
+			entity.setTrangThai(1);
+
+			this.crDAO.update(entity);
+			session.setAttribute("message", "Đặt hàng thành công");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/history");
+		} catch (Exception e) {
+			e.printStackTrace();
+			session.setAttribute("erro", "Đặt hàng thất bại");
+			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
 		}
 	}
 }

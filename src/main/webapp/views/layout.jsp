@@ -100,6 +100,8 @@
 										href="/HiennvPH13697_SOF3011_Assignment/accounts/logout">Đăng
 											xuất</a></li>
 								</c:if>
+								<li><a class="dropdown-item"
+									href="/HiennvPH13697_SOF3011_Assignment/history">Lịch sử</a></li>
 							</ul></li>
 					</ul>
 				</div>

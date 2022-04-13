@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import dao.CartDAO;
 import dao.CartDetailsDAO;
 import dao.CategoryDAO;
@@ -21,7 +20,8 @@ import entities.Cartdetail;
 import entities.Category;
 import entities.Product;
 
-@WebServlet({ "/home", "/addprdtocard", "/cart", "/list-products", "/product", "/removePrdOnCart", "/locTheoDanhMuc" })
+@WebServlet({ "/home", "/addprdtocard", "/cart", "/history", "/list-products", "/product", "/removePrdOnCart",
+		"/locTheoDanhMuc" })
 public class HomeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProductDAO prdDAO;
@@ -56,6 +56,8 @@ public class HomeServlet extends HttpServlet {
 			System.out.println("xoá sản phẩm trong đơn hàng");
 		} else if (uri.contains("locTheoDanhMuc")) {
 			this.locTheoDanhMuc(request, response);
+		} else if (uri.contains("history")) {
+			this.history(request, response);
 		}
 	}
 
@@ -152,24 +154,42 @@ public class HomeServlet extends HttpServlet {
 			cartdetail.setSoLuong(1);
 			this.cartDTDAO.create(cartdetail);
 			System.out.println("Tạo thành công hoá đơn chi tiết!");
+
 			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		// không lấy được id của khi tạo session
 	}
 
 	// xem rỏ hàng
 	public void cart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+//		session.removeAttribute("hoaDonMoi");
 		Cart cart = (Cart) session.getAttribute("hoaDonMoi");
 		if (cart != null) {
 			List<Cartdetail> lstCartdt = this.cartDTDAO.getAllByIDCart(cart.getId());
 			request.setAttribute("lstCartdt", lstCartdt);
+			request.setAttribute("khoangTrang", " ");
+			request.setAttribute("idCart", cart.getId()); // lấy id để gán vào nút button
 		}
 
 		request.setAttribute("view", "/views/admin/cart.jsp");
+		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
+	}
+
+	// xem lịch sử
+	public void history(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+//		session.removeAttribute("hoaDonMoi");
+		Cart cart = (Cart) session.getAttribute("hoaDonMoi");
+		if (cart != null) {
+			List<Cartdetail> lstCartdt = this.cartDTDAO.getAllByIDCart(cart.getId());
+			request.setAttribute("lstCartdt", lstCartdt);
+			request.setAttribute("khoangTrang", " ");
+		}
+
+		request.setAttribute("view", "/views/admin/history.jsp");
 		request.getRequestDispatcher("/views/layout.jsp").forward(request, response);
 	}
 
