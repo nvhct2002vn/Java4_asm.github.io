@@ -62,6 +62,7 @@ public class HomeServlet extends HttpServlet {
 		} else if (uri.contains("history")) {
 			this.history(request, response);
 		}
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -134,7 +135,7 @@ public class HomeServlet extends HttpServlet {
 				cartEntity = new Cart();
 				Date now = new Date();
 				cartEntity.setNgayMua(now);
-				cartEntity.setTongTien(8888888);
+				cartEntity.setTongTien(0);
 				cartEntity.setTrangThai(0);
 				this.cartDAO.create(cartEntity);
 				session.setAttribute("hoaDonMoi", cartEntity);
@@ -168,12 +169,14 @@ public class HomeServlet extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	// xem rỏ hàng
 	public void cart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 //		session.removeAttribute("hoaDonMoi");
+//		System.out.println("Xoá hoá đơn thành công!");
 		Cart cart = (Cart) session.getAttribute("hoaDonMoi");
 		if (cart != null) {
 			List<Cartdetail> lstCartdt = this.cartDTDAO.getAllByIDCart(cart.getId());
@@ -211,15 +214,15 @@ public class HomeServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Cartdetail entity = this.cartDTDAO.findByID(id);
 		try {
-			//sửa lại giá
+			// sửa lại giá
 			Cart cartEntity = (Cart) session.getAttribute("hoaDonMoi");
 			tongTienMoi = tongTienCu - entity.getDonGia();
 			cartEntity.setTongTien(tongTienMoi);
 			System.out.println("Tiền mới: " + tongTienMoi);
 			this.cartDAO.update(cartEntity);
 			session.setAttribute("tongTien", tongTienMoi);
-			
-			//xoá sản phẩm
+
+			// xoá sản phẩm
 			this.cartDTDAO.delete(entity);
 			session.setAttribute("message", "Xoá thành công");
 			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/cart");

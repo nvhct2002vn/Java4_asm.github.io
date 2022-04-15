@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import entities.Cart;
+import entities.Cartdetail;
 import utils.JpaUtil;
 
 public class CartDAO {
@@ -73,4 +74,6 @@ public class CartDAO {
 			throw e;
 		}
 	}
+	
+
 }

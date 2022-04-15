@@ -82,4 +82,11 @@ public class CartDetailsDAO {
 			throw e;
 		}
 	}
+
+	public void deleteAll(int idCart) {
+		String sql = "DELETE FROM Cartdetail WHERE cart_id = :id ";
+		TypedQuery<Cartdetail> query = this.em.createNamedQuery(sql, Cartdetail.class);
+		query.setParameter("cart_id", idCart);
+		query.executeUpdate();
+	}
 }

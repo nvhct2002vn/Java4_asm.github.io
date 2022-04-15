@@ -96,10 +96,16 @@ public class CartServlet extends HttpServlet {
 
 // xoá hoá đơn
 	public void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		int id = Integer.parseInt(request.getParameter("id"));
 		Cart entity = this.crDAO.findByID(id);
-		HttpSession session = request.getSession();
+		List<Cartdetail> listCart = this.crdtDAO.getAllByIDCart(id);
 		try {
+			// xoá hết cartdetails trong carts
+			for (Cartdetail cartdetail : listCart) {
+				this.crdtDAO.delete(cartdetail);
+			}
+
 			this.crDAO.delete(entity);
 			session.setAttribute("message", "Xoá thành công");
 			response.sendRedirect("/HiennvPH13697_SOF3011_Assignment/carts/index");
